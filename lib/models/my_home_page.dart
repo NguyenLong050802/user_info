@@ -241,6 +241,19 @@ class _Step1FormState extends State<Step1Form> {
   final emailctl = TextEditingController();
   final phonectl = TextEditingController();
 
+  bool isEmailValid(String value) {
+    String pattern =
+        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+";
+    RegExp regExp = RegExp(pattern);
+    return regExp.hasMatch(value);
+  }
+
+  bool isMobiePhoneValid(String value) {
+    String pattern = r"(^(?:[+0]9)?[0-9]{10,12}$)";
+    RegExp regExp = RegExp(pattern);
+    return regExp.hasMatch(value);
+  }
+
   @override
   Widget build(BuildContext context) {
     namectl.text = widget.userInfo.name ?? '';
@@ -310,6 +323,8 @@ class _Step1FormState extends State<Step1Form> {
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Vui loàng nhập email';
+                  } else if (!isEmailValid(value)) {
+                    return 'Email không hợp lệ';
                   }
                   return null;
                 },
@@ -322,6 +337,8 @@ class _Step1FormState extends State<Step1Form> {
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Vui loàng nhập số điện thoại';
+                  } else if (!isMobiePhoneValid(value)) {
+                    return 'Số điện thoại không hợp lệ';
                   }
                   return null;
                 },
